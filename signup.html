@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="./src/css/form.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <script defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBDN9vfYnKn3W09icpohL31TmnDlW9q29I&libraries=places,geometry"></script>
+    <script defer src="./src/js/signup.js"></script>
+    <script defer src="./src/js/location.js"></script>
+    <title>Signup</title>
+</head>
+
+<body class="d-none screen">
+    <nav class=" navbar navbar-expand-lg navbar-dark bg-dark justify-content-center sticky-top">
+        <h1 class="text-center text-light" href="#">Corona Portal</h1>
+    </nav>
+    <div class="col-12" id="root ">
+        <div class="row form-container  d-flex justify-content-center align-items-center">
+            <div class="container">
+                <div class="row d-flex justify-content-center align-items-center">
+                    <div class="col-sm-12 col-md-6 animate__animated animate__fadeInLeft">
+                        <img class="img-fluid login__photo" src="./src/img/Group-274-1024x778.png" alt="">
+                    </div>
+                    <div class="col-sm-12 col-md-6 text-center animate__animated animate__fadeInRight">
+                        <form class="sign__form">
+                            <div class="form-group position-relative border border-dark rounded-circle profile-pic-div">
+                                <img class="h-100 w-100" src="./src/img/boy.svg" id="photo">
+                                <input type="file" class="d-none" id="file">
+                                <label for="file" id="uploadBtn">Choose Photo</label>
+                            </div>
+                            <div class="alert user__message d-none" role="alert">
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group  col-md-6">
+                                    <input type="text" class="form-control sign__firstname" placeholder="First name"
+                                        required>
+                                </div>
+                                <div class="form-group  col-md-6">
+                                    <input type="text" class="form-control sign__lastname" placeholder="Last name"
+                                        required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group  col-md-2">
+                                    <select id="call__code" class="form-control" required>
+                                    </select>
+                                </div>
+                                <div class="form-group  col-md-6">
+                                    <input type="tel" class="form-control sign__phone" placeholder="PH number" required>
+                                </div>
+                                <div class="form-group  col-md-4">
+                                    <input type="date" class="form-control sign__dob" placeholder="DOB" required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-8">
+                                    <input type="text" id="search_input" class="form-control sign__address"
+                                        placeholder="Address eg-1234 Main St" required>
+                                </div>
+                                <div class="form-group  col-md-4">
+                                    <input type="number" id="postal_code" class="form-control sign__pin"
+                                        placeholder="PIN" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <input type="email" class="form-control sign__email" placeholder="email" required>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group  col-md-6">
+                                    <input type="password" class="form-control sign__setpass" placeholder="password"
+                                        required>
+                                </div>
+                                <div class="form-group  col-md-6">
+                                    <input type="password" class="form-control sign__confpass"
+                                        placeholder="confirm password" required>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn px-4 py-2 submit__btn">Sign up</button>
+                        </form>
+
+                    </div>
+                </div>
+                <div class="row mt-4 mt-sm-3 d-flex justify-content-center  align-items-center mb-3">
+                    <p class="my-0 mx-3">Already an user? Go for </p>
+                    <button type="button" onclick="window.location.href = 'login.html'"
+                        class="btn btn-warning form__move rounded-pill px-4 font-weight-bold"
+                        data-formtype="signup">Login</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
