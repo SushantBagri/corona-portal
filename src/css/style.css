@@ -38,6 +38,10 @@ body{
 .card__container{
     height: 11rem;
 }
+/* 
+.card__box{
+    height: 20vh;
+} */
 
 .stat__container {
     height: 55vh;
@@ -49,4 +53,12 @@ body{
 
 .state__form{
     height: 90vh;
+}
+/* 
+.active__data{
+    border-bottom: 4px solid #f7c008;
+} */
+
+.data__nav{
+    cursor: pointer;
 }

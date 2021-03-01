@@ -1,13 +1,17 @@
 'use strict';
+
+// FOR MAKE SCREEN VISIBLE TO USER LATE
 setTimeout(() => {
     document.querySelector('.screen').classList.remove('d-none')
 }, 1000);
 
+// CHECK USER IS LOGGED IN OR HAVE REMEBERED OPTIONS
 const user = JSON.parse(localStorage.getItem('user'));
 const loggedStatus = document.cookie ? JSON.parse(document.cookie.slice(7)) : null;
 
 if (!user?.rememberd && !loggedStatus) window.location.href = "login.html";
 
+//SELECT ELEMENTS FROM HTML
 const stateCol = document.querySelector('.state__col');
 const allStateInput = document.querySelector('.all__state__input');
 const form = document.querySelector('.state__form');
@@ -17,11 +21,13 @@ const activeCard = document.querySelector('.total__active');
 const recoveredCard = document.querySelector('.total__recovered');
 const logOut = document.querySelector('.log__out');
 const statContainer = document.querySelector('.stat__container');
+const dataNav = document.querySelectorAll('.data__nav')
+const noteForBar = document.querySelector('.note__for__bar')
 
 let allInputsArr;
 let covidData;
 
-
+// LOGOUT FUNCTION
 const logOutUser = () => {
     user.rememberd = false;
     localStorage.setItem('user', JSON.stringify(user))
@@ -32,8 +38,7 @@ const renderTotalState = (covidData, allState = true, selectedState) => {
     allState ? totalState.textContent = Object.keys(covidData).length : totalState.textContent = selectedState
 }
 
-const stateWise = []
-
+// CLACULATE BARS DATA FOR STATE WISE
 const calcStatsBar = (state, confirmed, active, recovered) => {
     const confirmedPercent = (confirmed / 1000000) * 100;
     const activePercent = (active / confirmed) * 100;
@@ -49,10 +54,31 @@ const calcStatsBar = (state, confirmed, active, recovered) => {
             </div>
             `
 
-    statContainer.insertAdjacentHTML("afterbegin", markup)
+    statContainer.insertAdjacentHTML("beforeend", markup)
 }
 
-const calcCases = (arr) => {
+// CALCULATE BARS FOR DISTRICT WISE
+const calcDistBar = (_, district, confirmed, active, recovered) => {
+    const confirmedPercent = (confirmed / 100000) * 100;
+    const activePercent = (active / confirmed) * 100;
+    const recoveredPercent = (recovered / confirmed) * 100;
+
+    const markup = `
+            <div class="w-75 d-flex align-items-center stat__bar mb-4">
+                <div class = "col-2"> <span class="mx-3 ">${district}</span></div>
+                <div class="d-flex bg-dark" style=" width: ${confirmedPercent}%; height: 100% ;">
+                <div class = "bg-danger" style="width: ${activePercent}% ;"></div>
+                    <div class = "bg-success" style="width:${recoveredPercent}%;"></div>
+                </div>
+            </div>
+            `
+
+
+    statContainer.insertAdjacentHTML("beforeend", markup)
+}
+
+// GET DATA ORGANISED AND CALCULATE FROM FETCHED API
+const calcCases = (arr, dataFor = 'state') => {
     statContainer.textContent = ""
     let totalConfirmed = 0;
     let totalRecovered = 0;
@@ -61,37 +87,41 @@ const calcCases = (arr) => {
         let stateConfirmed = 0;
         let stateRecovered = 0;
         let stateActive = 0;
+        if (dataFor === 'district') {
+            const markup = `
+            <h3 class = " ml-3 font-weight-bold border-bottom border-info"> ${state}</h3>
+            `
+            statContainer.insertAdjacentHTML('beforeend', markup)
+        }
         for (const key in covidData[state]['districtData']) {
             const element = covidData[state]['districtData'][key];
+            // console.log(key);
             let { active, confirmed, recovered } = element;
             stateActive += active;
             stateConfirmed += confirmed;
             stateRecovered += recovered;
-        }
-        const particularState = {
-            [state]: {
-                activeCase: stateActive,
-                recoveredCase: stateRecovered,
-                confirmedCase: stateConfirmed
+            if (dataFor === 'district') {
+                calcDistBar(state, key, stateConfirmed, stateActive, stateRecovered)
             }
+
         }
         // stateWise.push(particularState)
-        calcStatsBar(state, stateConfirmed, stateActive, stateRecovered)
-
+        if (dataFor === 'state') {
+            calcStatsBar(state, stateConfirmed, stateActive, stateRecovered);
+        }
         totalActive += stateActive
         totalRecovered += stateRecovered
         totalConfirmed += stateConfirmed
-        console.log((stateConfirmed / 1000000) * 100);
 
     })
     confirmedCard.textContent = new Intl.NumberFormat('en-IN').format(totalConfirmed)
     activeCard.textContent = new Intl.NumberFormat('en-IN').format(totalActive)
     recoveredCard.textContent = new Intl.NumberFormat('en-IN').format(totalRecovered)
-    // console.log(stateWise.map((stateData, i) => Object.keys(stateData)));
-    // console.log(stateWise);
+
 
 }
 
+// RENDER TOP CARD DATA
 const renderCardData = (covidData, allState = true, selectedState = []) => {
     if (allState) {
         const stateArr = Object.keys(covidData);
@@ -101,6 +131,7 @@ const renderCardData = (covidData, allState = true, selectedState = []) => {
 
 }
 
+// RENDER ALL STATES IN SIDENAV
 const renderStates = (covidData) => {
     const getState = Object.keys(covidData);
     const markup = `
@@ -119,6 +150,7 @@ const renderStates = (covidData) => {
 
 }
 
+// FOR FETCHING COVID DATA
 const fetchCovidData = async () => {
     try {
         const res = await fetch('https://api.covid19india.org/state_district_wise.json');
@@ -132,6 +164,7 @@ const fetchCovidData = async () => {
     }
 }
 
+// FOR CHECKED FUNCTION ( SELECT ALL )
 const checkedAllInputs = () => {
     allInputsArr = document.querySelectorAll('.state__input')
     if (allStateInput.checked) {
@@ -149,6 +182,7 @@ fetchCovidData()
 
 allStateInput.addEventListener('click', checkedAllInputs);
 
+// FOR FILTER THE DATA ACCORDING TO THE STATES
 form.addEventListener('submit', (e) => {
     e.preventDefault()
     let selectedState = []
@@ -159,4 +193,21 @@ form.addEventListener('submit', (e) => {
     renderCardData(covidData, false, selectedState)
 })
 
+// FOR NAV FUNCTIONALITY OF STATE WISE AND DISTRICT WISE DATA
+for (let i = 0; i < dataNav.length; i++) {
+    dataNav[i].addEventListener('click', () => {
+        let selectedState = []
+        document.querySelectorAll('.state__input').forEach(ele => {
+            if (ele.checked) selectedState.push(ele.value)
+        })
+        if (dataNav[i].dataset.value === 'state') {
+            noteForBar.textContent = 'Data percentage on 10,00,000 people';
+            return calcCases(selectedState, 'state')
+        }
+        if (dataNav[i].dataset.value === 'district') {
+            noteForBar.textContent = 'Data percentage on 1,00,000 people'
+            return calcCases(selectedState, 'district')
+        }
+    });
+}
 logOut.addEventListener('click', logOutUser)

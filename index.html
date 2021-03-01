@@ -64,7 +64,7 @@
                         </form>
                         <div class="col-10 data__container">
                             <div class="card-deck mx-auto card__container">
-                                <div class="card border-secondary mb-3">
+                                <div class="card border-secondary card__box mb-3">
                                     <div class="card-header font-weight-bold bg-secondary text-center">Selected states
                                     </div>
                                     <div class="card-body text-secondary">
@@ -72,21 +72,21 @@
                                         </h5>
                                     </div>
                                 </div>
-                                <div class="card border-warning mb-3">
+                                <div class="card border-warning card__box mb-3">
                                     <div class="card-header font-weight-bold bg-warning text-center ">Confirmed</div>
                                     <div class="card-body text-warning">
                                         <h5 class="card-title text-center total__confirmed card__nums font-weight-bold">
                                             __</h5>
                                     </div>
                                 </div>
-                                <div class="card border-success mb-3">
+                                <div class="card border-success card__box mb-3">
                                     <div class="card-header bg-success font-weight-bold text-center ">Recovered</div>
                                     <div class="card-body text-success">
                                         <h5 class="card-title text-center total__recovered card__nums font-weight-bold">
                                             __</h5>
                                     </div>
                                 </div>
-                                <div class="card border-danger mb-3">
+                                <div class="card border-danger card__box mb-3">
                                     <div class="card-header font-weight-bold bg-danger text-center ">Active</div>
                                     <div class="card-body text-danger">
                                         <h5 class="card-title text-center total__active card__nums font-weight-bold">__
@@ -95,11 +95,18 @@
                                 </div>
                             </div>
                             <div class="my-2 d-flex flex-column justify-content-center ">
-                                <h1 class="text-center font-weight-bold">State wise data</h1>
+                                <div class="d-flex justify-content-around ">
 
+                                    <h1 class="text-center font-weight-bold active__data data__nav" data-value="state">
+                                        State
+                                        wise data</h1>
+                                    <h1 class="text-center font-weight-bold data__nav" data-value="district">District
+                                        wise data</h1>
+                                </div>
                                 <div class="alert alert-info d-flex align-items-center justify-content-around"
                                     role="alert">
-                                    <h5 class="font-weight-bold">Data percentage on 1,00,000 people </h5>
+                                    <h5 class="font-weight-bold note__for__bar">Data percentage on 10,00,000 people
+                                    </h5>
                                     <div class="d-flex justify-content-end">
                                         <h5 class="mr-5 font-weight-bold">Recovered <span
                                                 class="badge badge-success h-75">
